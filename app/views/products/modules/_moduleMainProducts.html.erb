@@ -1,0 +1,12 @@
+  <% (0..(@displayHeight-1)).each do |j| %>
+    <div class="row">
+      <% (0..(@displayWidth-1)).each do |i| %>
+        <div class="span3">
+        <% if @products[(j * @displayWidth)+ i] %>
+            <%= render 'products/modules/moduleProduct', :product =>
+                @products[(j * @displayWidth)+ i] %>
+        <%end%>
+        </div>
+      <%end%>
+    </div>
+  <%end%>

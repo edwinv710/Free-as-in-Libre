@@ -1,0 +1,7 @@
+== Welcome to Free as in Libre
+
+Free as in Libre (FaiL) is a powerful and portable ecomerce solution for Ruby on Rails
+
+== Progress 2/20/13:
+
+15% Product Display Page
