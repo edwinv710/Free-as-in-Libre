@@ -1,26 +1,39 @@
 class ProductsController < ApplicationController
   # GET /products
   # GET /products.json
+
+  # The index method will help show a segment of each category on the page.
+  # It will do this by creating a hash that includes each variable needed for
+  # the page. The has will be separated by boolean which will decided if the
+  # the page is an index page or a category view.
+
+  # Assumption: There will always be a category. If category is not set then
+  # we are in the index page
+
   def index
-    @page = Integer(getPage())
 
-    @productsPerPage = 2
+    @isMainIndex = false
 
-    @totalPages = (Product.all.length / @productsPerPage.to_f).ceil
+    #Create a hash for all the display subdivision
+    @display = Hash.new
 
-    if !@page
-      @products = Product.limit(@productsPerPage).all
-    else
-      @products = Product.offset((@page - 1) * @productsPerPage)
-        .limit(@productsPerPage).all
-    end
+    #Returns the parameters (if any) set by the user
+    @page, @productsPerPage, @category = init()
 
-
+    #The amount of products to be displayed width wise
     @displayWidth = 4
-    @displayHeight = (@products.length / @displayWidth.to_f).ceil
 
+    # If category is set to all by the init (Category not set) then we can assume
+    # We are in the main page and create a hash with the different categories
+    # to display.
+    if @category.id == Category.find(1).id
+       @display = getMainHash(@page, @productsPerPage, @displayWidth, Category.find_all_by_depth(1))
+       @isMainIndex = true
+    else
+      @categories, @products, @totalProducts, @totalPages, @displayHeight =
+          getCategoryPage(@page, @productsPerPage, @displayWidth, @category)
 
-
+    end
 
     respond_to do |format|
       format.html # index.html.erb
@@ -101,8 +114,52 @@ class ProductsController < ApplicationController
 
   private
 
-  def getPage
-    @page = params[:page_num]
-    return @page
+  #Grabs the parameters set by the user
+  def init(_defaultPage = 1, _defaultPPP = 3, _defaultCat = 1)
+    _page = params[:page_num]
+    _page ? _page = Integer(_page) : _page = _defaultPage
+    _ppp = params[:per_page]
+    _ppp ? _ppp = Integer(_ppp) : _ppp = _defaultPPP
+    _cat = params[:cat]
+    _cat ? _cat = Category.find(Integer(_cat)) : _cat = Category.find(_defaultCat)
+    return _page, _ppp, _cat
   end
+
+  def getCategoryPage(_page, _productsPerPage, _displayWidth, _category)
+    #Returns all the subcategories associated with that category
+    _categories = Category.getCategories(_category)
+
+    #Return all the products based on page, products per page, and category
+    _products, _totalProducts = Product.getProducts(_page, _productsPerPage, _category)
+
+    _totalPages = (_totalProducts / _productsPerPage.to_f).ceil
+
+    _displayHeight = (_products.length / _displayWidth.to_f).ceil
+
+    return _categories, _products, _totalProducts, _totalPages, _displayHeight
+  end
+
+  # Returns a hash with the category as the key and an (array or hash)? with
+  # all the values
+  def getMainHash(_page, _productsPerPage, _displayWidth, _categories)
+    _displayHash = Hash.new
+
+    _categories.each do |i|
+      _variableHash = Hash.new
+
+      _variableHash[:categories] = Category.getCategories(i)
+      _variableHash[:products] , _variableHash[:totalProducts] =
+          Product.getProducts(_page, _productsPerPage, i)
+      _variableHash[:totalPages] =
+          (_variableHash[:totalProducts] / _productsPerPage.to_f).ceil
+      _variableHash[:displayHeight] =
+          (_variableHash[:products].length / _displayWidth.to_f).ceil
+
+      _displayHash[i] = _variableHash
+
+    end
+
+    return _displayHash
+  end
+
 end

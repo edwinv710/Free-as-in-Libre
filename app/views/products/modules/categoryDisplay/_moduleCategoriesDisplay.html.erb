@@ -1,0 +1,9 @@
+<div class = "categories-items">
+  <ul>
+    <%Category.all.each do |i| %>
+      <li><%=  link_to i.name, :controller => "products", :action => "index", :cat => i.id %> </li>
+    <%end%>
+  </ul>
+</div>
+
+<hr>

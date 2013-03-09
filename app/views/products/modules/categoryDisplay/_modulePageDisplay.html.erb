@@ -1,0 +1,8 @@
+<p>
+  <%=  link_to "[First]", :controller => "products", :action => "index", :page_num => 1 %>
+  <% (1..@totalPages).each do |i| %>
+      <%= link_to "#{i}", :controller => "products", :action => "index",
+                  :page_num => i, :cat => params[:cat] %>
+  <%end%>
+  <%=  link_to "[Last]", :controller => "products", :action => "index", :page_num => @totalPages, :cat => params[:cat] %>
+</p>

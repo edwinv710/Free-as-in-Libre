@@ -1,0 +1,10 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/Fixtures.html
+
+one:
+  id: 1
+  name: mexican
+  category_id: 0
+  depth: 0
+  is_active: true
+  updated_at: 2013-02-21 13:38:39
+

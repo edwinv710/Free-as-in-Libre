@@ -1,7 +1,12 @@
 require 'test_helper'
 
 class ProductTest < ActiveSupport::TestCase
-  # test "the truth" do
-  #   assert true
-  # end
+
+  test 'Product has Category' do
+    @product = Product.find_by_id(2)
+
+    assert @product.categories
+  end
+
+
 end

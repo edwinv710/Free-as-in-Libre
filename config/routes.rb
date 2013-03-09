@@ -1,9 +1,11 @@
 StrapOnRails::Application.routes.draw do
+  resources :product_displays
+
   ActiveAdmin.routes(self)
 
   devise_for :admin_users, ActiveAdmin::Devise.config
 
-  resources :products
+  resources :products, :category
 
   get "static/index"
   # The priority is based upon order of creation:

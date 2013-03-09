@@ -1,0 +1,5 @@
+<p>
+  <% @categories.each do |i| %>
+      <%=  link_to i.name, :controller => "products", :action => "index", :cat => i.id %>
+  <%end%>
+</p>
