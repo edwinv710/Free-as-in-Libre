@@ -20,6 +20,8 @@ class ProductsController < ApplicationController
     #Returns the parameters (if any) set by the user
     @page, @productsPerPage, @category = init()
 
+    @catProductsPerPage = 6
+
     #The amount of products to be displayed width wise
     @displayWidth = 4
 
@@ -31,7 +33,7 @@ class ProductsController < ApplicationController
        @isMainIndex = true
     else
       @categories, @products, @totalProducts, @totalPages, @displayHeight =
-          getCategoryPage(@page, @productsPerPage, @displayWidth, @category)
+          getCategoryPage(@page, @catProductsPerPage , @displayWidth, @category)
 
     end
 

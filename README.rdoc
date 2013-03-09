@@ -2,6 +2,23 @@
 
 Free as in Libre (FaiL) is a powerful and portable ecomerce solution for Ruby on Rails
 
+== Features
+
+Decoupling the workings of the backend from the frontend. This allows developers and designers
+to focus on what they do best. A black box approach to web design. This will
+allow the company to develop many themes for their site and incorporate them
+seamlessly.
+
+This approach also allows anyone to practice frontend or backend design without
+having to worry about the inner workings of the other.
+
 == Progress 2/20/13:
 
 15% Product Display Page
+
+== Progress 3/09/13:
+
+Finished with the basic product design. This minimilistic approach will allow
+me to develop a method of decoupling frontend from backend. In theory I will
+develop both sides on two different branches and at any point I can merge them
+and get a functioning eccomerce site.
